@@ -4,3 +4,4 @@ beautifulsoup4==4.10.0
 newspaper3k==0.2.8
 gensim==4.1.2
 nltk==3.6.7
+future==0.18.3
