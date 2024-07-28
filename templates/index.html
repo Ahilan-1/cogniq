@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CogniQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>CogniQ</h1>
+        <form method="POST" class="search-form" onsubmit="showLoadingScreen()">
+            <input type="text" name="query" placeholder="What are you looking for?" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <div id="loading-screen" class="loading-screen">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+
+        {% if query %}
+            <h2>Search Results for "{{ query }}"</h2>
+            
+            {% if combined_summary %}
+                <div class="summary-box">
+                    <h3>Combined Summary</h3>
+                    <p>{{ combined_summary }}</p>
+                </div>
+            {% endif %}
+
+            {% for result in results %}
+                <div class="result-box">
+                    <h3><a href="{{ result.link }}" target="_blank">{{ result.title }}</a></h3>
+                    <p class="snippet">{{ result.snippet }}</p>
+                    {% if result.summary %}
+                        <div class="summary">
+                            <h4>Summary</h4>
+                            <p>{{ result.summary }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

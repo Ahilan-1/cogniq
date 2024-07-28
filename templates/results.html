@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .search-container {
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        .results-container {
+            max-width: 800px;
+            margin: 50px auto;
+        }
+        .result-item {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .result-item h3 {
+            font-size: 20px;
+            color: #007bff;
+        }
+        .result-item p {
+            margin: 10px 0;
+        }
+        .summary-content {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+        }
+        .summary-content b {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <h1>SearchGPT</h1>
+        <form action="/search" method="get">
+            <input type="text" name="query" value="{{ query }}" required>
+            <button type="submit">Go</button>
+        </form>
+    </div>
+    <div class="results-container">
+        <h2>Summary for "{{ query }}"</h2>
+        <div class="summary-content">
+            {% if summaries %}
+                <ul>
+                    {% for title, link, snippet, summary in summaries %}
+                        {% if summary != "No summary found" %}
+                            <li class="result-item">
+                                <h3>{{ title }}</h3>
+                                <p><a href="{{ link }}" target="_blank">{{ link }}</a></p>
+                                <p>{{ snippet }}</p>
+                                <div class="summary-content">
+                                    {{ summary | safe }}
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No results found</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
